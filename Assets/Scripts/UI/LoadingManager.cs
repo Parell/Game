@@ -5,16 +5,15 @@ using UnityEngine.SceneManagement;
 public class LoadingManager : MonoBehaviour
 {
     public static LoadingManager Instance;
-
     public enum FadeDirection { In, Out }
 
     public int previousScene;
     public int currentScene;
 
-    [SerializeField] CanvasGroup fadeImage;
-    [SerializeField] float fadeTime = 0.5f;
+    [SerializeField] private CanvasGroup fadeImage;
+    [SerializeField] private float fadeTime = 0.5f;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance)
         {
@@ -29,7 +28,7 @@ public class LoadingManager : MonoBehaviour
         StartCoroutine(Fade(FadeDirection.Out));
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         previousScene = currentScene;
         currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -59,7 +58,7 @@ public class LoadingManager : MonoBehaviour
         }
     }
 
-    void SetAlpha(ref float alpha, FadeDirection fadeDirection)
+    private void SetAlpha(ref float alpha, FadeDirection fadeDirection)
     {
         fadeImage.alpha = alpha;
         alpha += Time.deltaTime * (1f / fadeTime) * ((fadeDirection == FadeDirection.Out) ? -1 : 1);

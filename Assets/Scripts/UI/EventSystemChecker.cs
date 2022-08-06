@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class EventSystemChecker : MonoBehaviour
 {
-    void Awake()
+    private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (!FindObjectOfType<EventSystem>())
         {
