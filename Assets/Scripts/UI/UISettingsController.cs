@@ -16,8 +16,8 @@ public class UISettingsController : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private List<Resolution> _resolutions;
 
-    private string directory = "/Saves/";
-    private string fileName = "Settings.cfg";
+    private string directory = "/";
+    private string fileName = "Settings.json";
     private string path;
     private SettingsData settingsData;
 
@@ -27,9 +27,9 @@ public class UISettingsController : MonoBehaviour
 
         GUIUtility.systemCopyBuffer = Application.persistentDataPath;
 
-        path = Application.persistentDataPath + directory;
+        //path = Application.persistentDataPath + directory;
 
-        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        //if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
         SetResolutionDropdown();
 
