@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using System.IO;
+using DataSystem;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class UISettingsController : MonoBehaviour
 {
+    [SerializeField] private List<Resolution> _resolutions;
     [SerializeField] private Dropdown _resolutionDropdown;
     [SerializeField] private Toggle _fullscreenToggle;
     [SerializeField] private Toggle _vsyncToggle;
@@ -14,11 +15,8 @@ public class UISettingsController : MonoBehaviour
     [SerializeField] private Slider _effectsSlider;
     [Space]
     [SerializeField] private AudioMixer _audioMixer;
-    [SerializeField] private List<Resolution> _resolutions;
 
-    private string directory = "/";
-    private string fileName = "Settings.json";
-    private string path;
+    private string fileName = "Settings";
     private SettingsData settingsData;
 
     private void Awake()
@@ -26,10 +24,6 @@ public class UISettingsController : MonoBehaviour
         settingsData = new SettingsData();
 
         GUIUtility.systemCopyBuffer = Application.persistentDataPath;
-
-        //path = Application.persistentDataPath + directory;
-
-        //if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
         SetResolutionDropdown();
 
@@ -122,12 +116,11 @@ public class UISettingsController : MonoBehaviour
 
     private void LoadSettings()
     {
-        if (File.Exists(path + fileName))
+        if (SaveLoad.Exists(fileName))
         {
-            string json = File.ReadAllText(path + fileName);
-            settingsData = JsonUtility.FromJson<SettingsData>(json);
+            settingsData = SaveLoad.Load<SettingsData>(fileName);
 
-            Debug.Log("Loading data");
+            Debug.Log("Load");
         }
         else RestoreSettings();
 
@@ -148,10 +141,9 @@ public class UISettingsController : MonoBehaviour
         settingsData.musicVolume = _musicSlider.value;
         settingsData.effectsVolume = _effectsSlider.value;
 
-        string json = JsonUtility.ToJson(settingsData, true);
-        File.WriteAllText(path + fileName, json);
+        SaveLoad.Save<SettingsData>(fileName, settingsData);
 
-        Debug.Log("Saving data");
+        Debug.Log("Save");
     }
 
     private void OnApplicationQuit()

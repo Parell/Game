@@ -60,6 +60,14 @@ public class CharacterMover : MonoBehaviour
     {
         characterController.Move(currentMovement * Time.deltaTime);
 
+        if (/* SystemManager.Instance.isMovementLocked || */ moveDisabledTimer > 0f)
+        {
+            isJumpPressed = false;
+            isDashPressed = false;
+            moveInput = Vector3.zero;
+            moveDisabledTimer -= Time.deltaTime;
+        }
+
         HandleMove();
         HandleGravity();
         HandleJump();
