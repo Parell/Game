@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterMover : MonoBehaviour
 {
+    public bool lockCursor = true;
     public bool canMove = true;
     public float moveDisabledTimer;
     [Space]
@@ -59,6 +60,17 @@ public class CharacterMover : MonoBehaviour
 
     void Update()
     {
+        if (!lockCursor)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         characterController.Move(currentMovement * Time.deltaTime);
 
         (bool rayHitGround, RaycastHit rayHit) = RaycastToGround();
